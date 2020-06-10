@@ -1,130 +1,142 @@
-const presupuestoUsuario = prompt('presupuesto semanal')
-const formulario = document.getElementById('agregar-gasto')
-let cantidadPresupuesto;
-
-class Presupuesto {
-
-    constructor(presupuesto) {
-        this.presupuesto = Number(presupuesto)
-        this.restante = Number(presupuesto)
-    }
-
-    // metodo para ir restando el presupuesto
-
-    presupuestoRestante(cantidad = 0) {
-        return this.restante -= Number(cantidad)
-    }
-
-}
-
-class Interfaz {
-
-    insertarPresupuesto(cantidad) {
-        const presupuestoSpan = document.querySelector('span#total')
-        const restanteSpan = document.querySelector('span#restante')
-
-        presupuestoSpan.innerHTML = `${cantidad}`
-        restanteSpan.innerHTML = `${cantidad}`
-    }
-
-    imprimirMensaje(mensaje, tipo) {
-
-        const divMensaje = document.createElement('div')
-
-        divMensaje.classList.add('text-center', 'alert')
-
-        if (tipo === 'error') {
-
-            divMensaje.classList.add('alert-danger')
-
-        } else {
-
-            divMensaje.classList.add('alert-success')
-
-        }
-
-        divMensaje.appendChild(document.createTextNode(mensaje))
-
-
-        // Insertar en el DOM
-        document.querySelector('.primario').insertBefore(divMensaje, formulario)
-
-
-        setTimeout(function() {
-            document.querySelector('.primario .alert').remove()
-            formulario.reset()
-        }, 3000)
-
-    }
-
-    agregarGastoListado(nombre, cantidad) {
-        const gastosListado = document.querySelector('#gastos ul')
-
-        const li = document.createElement('li')
-        li.className = 'list-group-item d-flex justify-content-between align-items-center'
-        li.innerHTML = `${nombre} <span class= "badge badge-primary badge-pill">$ ${cantidad} </span>`
-        gastosListado.appendChild(li)
-    }
-
-    presupuestoRestante(cantidad) {
-        const restante = document.querySelector('span#restante')
-        const presupuestoRestanteUsuario = cantidadPresupuesto.presupuestoRestante(cantidad)
-
-        restante.innerHTML = `${presupuestoRestanteUsuario}`
-
-        this.comprobarPresupuesto()
-    }
-
-    comprobarPresupuesto() {
-        const presupuestoTotal = cantidadPresupuesto.presupuesto
-        const presupuestoRestante = cantidadPresupuesto.restante
-
-        // comprobar el 25% del gasto
-        if ((presupuestoTotal / 4) > presupuestoRestante) {
-            const restante = document.querySelector('.restante')
-            restante.classList.remove('alert-success', 'alert-warning')
-            restante.classList.add('alert-danger')
-        } else if ((presupuestoTotal / 2) > presupuestoRestante) {
-            const restante = document.querySelector('.restante')
-            restante.classList.remove('alert-success')
-            restante.classList.add('alert-warning')
-
-        }
-    }
-
-}
-
-
-document.addEventListener('DOMContentLoaded', function() {
-    if (presupuestoUsuario === null || presupuestoUsuario === '') {
-        window.location.reload()
-    } else {
-        cantidadPresupuesto = new Presupuesto(presupuestoUsuario)
-
-        const ui = new Interfaz()
-        ui.insertarPresupuesto(cantidadPresupuesto.presupuesto)
-    }
-})
-
-formulario.addEventListener('submit', function(e) {
-    e.preventDefault()
-
-    const nombreGasto = document.querySelector('#gasto').value
-    const cantidadGasto = document.querySelector('#cantidad').value
-
-
-
-    const ui = new Interfaz()
-
-    if (nombreGasto === '' || cantidadGasto === '') {
-
-        ui.imprimirMensaje('Hubo un error', 'error')
-
-    } else {
-        ui.imprimirMensaje('correcto', 'correcto')
-        ui.agregarGastoListado(nombreGasto, cantidadGasto)
-        ui.presupuestoRestante(cantidadGasto)
-    }
+const autos = [{
+        marca: 'BMW',
+        modelo: 'Serie 3',
+        year: 2012,
+        precio: 30000,
+        puertas: 4,
+        color: 'Blanco',
+        transmision: 'automatico'
+    },
+    { marca: 'Audi', modelo: 'A4', year: 2018, precio: 40000, puertas: 4, color: 'Negro', transmision: 'automatico' },
+    {
+        marca: 'Ford',
+        modelo: 'Mustang',
+        year: 2015,
+        precio: 20000,
+        puertas: 2,
+        color: 'Blanco',
+        transmision: 'automatico'
+    },
+    { marca: 'Audi', modelo: 'A6', year: 2010, precio: 35000, puertas: 4, color: 'Negro', transmision: 'automatico' },
+    {
+        marca: 'BMW',
+        modelo: 'Serie 5',
+        year: 2016,
+        precio: 70000,
+        puertas: 4,
+        color: 'Rojo',
+        transmision: 'automatico'
+    },
+    {
+        marca: 'Mercedes Benz',
+        modelo: 'Clase C',
+        year: 2015,
+        precio: 25000,
+        puertas: 4,
+        color: 'Blanco',
+        transmision: 'automatico'
+    },
+    {
+        marca: 'Chevrolet',
+        modelo: 'Camaro',
+        year: 2018,
+        precio: 60000,
+        puertas: 2,
+        color: 'Rojo',
+        transmision: 'manual'
+    },
+    { marca: 'Ford', modelo: 'Mustang', year: 2019, precio: 80000, puertas: 2, color: 'Rojo', transmision: 'manual' },
+    {
+        marca: 'Dodge',
+        modelo: 'Challenger',
+        year: 2017,
+        precio: 40000,
+        puertas: 4,
+        color: 'Blanco',
+        transmision: 'automatico'
+    },
+    { marca: 'Audi', modelo: 'A3', year: 2017, precio: 55000, puertas: 2, color: 'Negro', transmision: 'manual' },
+    {
+        marca: 'Dodge',
+        modelo: 'Challenger',
+        year: 2012,
+        precio: 25000,
+        puertas: 2,
+        color: 'Rojo',
+        transmision: 'manual'
+    },
+    {
+        marca: 'Mercedes Benz',
+        modelo: 'Clase C',
+        year: 2018,
+        precio: 45000,
+        puertas: 4,
+        color: 'Azul',
+        transmision: 'automatico'
+    },
+    {
+        marca: 'BMW',
+        modelo: 'Serie 5',
+        year: 2019,
+        precio: 90000,
+        puertas: 4,
+        color: 'Blanco',
+        transmision: 'automatico'
+    },
+    { marca: 'Ford', modelo: 'Mustang', year: 2017, precio: 60000, puertas: 2, color: 'Negro', transmision: 'manual' },
+    {
+        marca: 'Dodge',
+        modelo: 'Challenger',
+        year: 2015,
+        precio: 35000,
+        puertas: 2,
+        color: 'Azul',
+        transmision: 'automatico'
+    },
+    {
+        marca: 'BMW',
+        modelo: 'Serie 3',
+        year: 2018,
+        precio: 50000,
+        puertas: 4,
+        color: 'Blanco',
+        transmision: 'automatico'
+    },
+    {
+        marca: 'BMW',
+        modelo: 'Serie 5',
+        year: 2017,
+        precio: 80000,
+        puertas: 4,
+        color: 'Negro',
+        transmision: 'automatico'
+    },
+    {
+        marca: 'Mercedes Benz',
+        modelo: 'Clase C',
+        year: 2018,
+        precio: 40000,
+        puertas: 4,
+        color: 'Blanco',
+        transmision: 'automatico'
+    },
+    { marca: 'Audi', modelo: 'A4', year: 2016, precio: 30000, puertas: 4, color: 'Azul', transmision: 'automatico' }
+];
 
 
-})
+
+
+
+
+
+// forEach
+
+// map
+
+// filter
+
+// find
+
+// reduce
+
+// some
